@@ -1,19 +1,19 @@
 use crate::book::Book;
-pub struct Library {
-    pub books: Vec<Book>,
+pub struct Library<'a> {
+    pub books: Vec<Book<'a>>,
 }
 
-impl Library {
-    pub fn new() -> Library {
+impl Library<'_> {
+    pub fn new() -> Library<'static> {
         Library {
             books: Vec::new(),
         }
     }
 
-    pub fn checkout(&mut self, book_name: &String, borrower: &String) {
+    pub fn checkout(&mut self, book_name: &str, borrower: &str) {
         for book in &mut self.books{
-            if book.title == book_name.to_string() {
-                if book.is_available == true {
+            if book.title == book_name {
+                if book.is_available {
                     book.is_available = false;
                     book.borrower = borrower.to_string();
                     println!("{} by {} is checked out by {}", book.title, book.author, book.borrower)
@@ -24,10 +24,10 @@ impl Library {
         }
     }
 
-    pub fn return_book(&mut self, book_name: String) {
+    pub fn return_book(&mut self, book_name: &str) {
         for book in &mut self.books{
             if book.title == book_name {
-                if book.is_available == false {
+                if !book.is_available {
                     book.is_available = true;
                     book.borrower = "".to_string();
                     println!("{} by {} is returned", book.title, book.author)
@@ -40,7 +40,8 @@ impl Library {
 
    pub fn list_checkout_books(&self) {
         println!("List of checked out books:");
-        for book  in &self.books {
+        let checked_out_books: Vec<&Book> = self.books.iter().filter(|book| !book.is_available).collect();
+        for book  in checked_out_books {
             if book.is_available == false {
                 println!("{}, {}, {}", book.title, book.author, book.borrower);
             }
@@ -49,7 +50,8 @@ impl Library {
 
    pub fn list_available_books(&self) {
         println!("List of available books:");
-        for book in &self.books {
+        let available_books: Vec<&Book> = self.books.iter().filter(|book| book.is_available).collect();
+        for book in available_books {
             if book.is_available == true {
                 println!("{} by {} is available", book.title, book.author)
             }

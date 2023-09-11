@@ -1,14 +1,14 @@
-// Title: Book
-pub struct Book {
-    pub title: String,
-    pub author: String,
+
+pub struct Book<'a> {
+    pub title: &'a str, // not a dynamic value
+    pub author: &'a str,
     pub is_available: bool,
     pub borrower: String,
 
 }
 
-impl Book {
-    pub fn new(title: String, author: String, is_available: bool, borrower: String) -> Book {
+impl Book<'_> {
+    pub fn new<'a>(title: &'a str, author: &'a str, is_available: bool, borrower: String) -> Book<'a> {
         Book {
             title,
             author,
