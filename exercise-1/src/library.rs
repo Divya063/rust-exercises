@@ -1,4 +1,8 @@
 use crate::book::Book;
+
+// #[derive(Debug)] implements Debug trait such that we can do println!("{:?}", person)  
+//-- useful to not implement a Display trait for printing
+#[derive(Debug)]
 pub struct Library<'a> {
     pub books: Vec<Book<'a>>,
 }
@@ -41,8 +45,8 @@ impl Library<'_> {
    pub fn list_checkout_books(&self) {
         println!("List of checked out books:");
        self.books.iter().filter(|book| !book.is_available)
-        .for_each(|book| { println!("{}, {}, {}", book.title, book.author, book.borrower)});
-    
+        .for_each(|book| { println!("{:?}", book)});
+
         // for book  in checked_out_books {
         //     if book.is_available == false {
         //         println!("{}, {}, {}", book.title, book.author, book.borrower);
@@ -52,11 +56,13 @@ impl Library<'_> {
 
    pub fn list_available_books(&self) {
         println!("List of available books:");
-        let available_books: Vec<&Book> = self.books.iter().filter(|book| book.is_available).collect();
-        for book in available_books {
-            if book.is_available == true {
-                println!("{} by {} is available", book.title, book.author)
-            }
-        }
+       self.books.iter().filter(|book| book.is_available).for_each(|book| {println!("{:?}", book)});
+
+
+        // for book in available_books {
+        //     if book.is_available == true {
+        //         println!("{} by {} is available", book.title, book.author)
+        //     }
+        // }
     }
 }

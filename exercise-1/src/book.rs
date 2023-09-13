@@ -1,4 +1,5 @@
 
+#[derive(Debug)]
 pub struct Book<'a> {
     pub title: &'a str, // not a dynamic value
     pub author: &'a str,
