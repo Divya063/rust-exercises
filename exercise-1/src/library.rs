@@ -40,12 +40,14 @@ impl Library<'_> {
 
    pub fn list_checkout_books(&self) {
         println!("List of checked out books:");
-        let checked_out_books: Vec<&Book> = self.books.iter().filter(|book| !book.is_available).collect();
-        for book  in checked_out_books {
-            if book.is_available == false {
-                println!("{}, {}, {}", book.title, book.author, book.borrower);
-            }
-        }
+       self.books.iter().filter(|book| !book.is_available)
+        .for_each(|book| { println!("{}, {}, {}", book.title, book.author, book.borrower)});
+    
+        // for book  in checked_out_books {
+        //     if book.is_available == false {
+        //         println!("{}, {}, {}", book.title, book.author, book.borrower);
+        //     }
+        // }
     }
 
    pub fn list_available_books(&self) {
